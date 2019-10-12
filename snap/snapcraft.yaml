@@ -39,7 +39,7 @@ parts:
       snapcraftctl set-version "$version"
       snapcraftctl set-grade "devel"
     override-build: |
-      export PATH=/root/.cabal/bin:$PATH
+      export PATH=$HOME/.cabal/bin:$PATH
       make install PREFIX=$SNAPCRAFT_PART_INSTALL
       # Fix folder permissions
       find $SNAPCRAFT_PART_INSTALL/idris2-0.0.0 -type d -exec chmod 755 {} \;
