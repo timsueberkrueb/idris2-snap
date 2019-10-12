@@ -49,6 +49,7 @@ parts:
     source: https://github.com/idris-lang/Idris-dev.git
     source-tag: v1.3.2
     build-packages:
+      - wget
       - cabal-install
       - libffi-dev
       - pkg-config
