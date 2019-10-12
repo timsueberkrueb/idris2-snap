@@ -30,9 +30,9 @@ parts:
     plugin: make
     source: https://github.com/edwinb/idris2.git
     build-packages:
-      - chezscheme
+      - chezscheme9.5
     stage-packages:
-      - chezscheme
+      - chezscheme9.5
     override-pull: |
       snapcraftctl pull
       version="$(git describe --always | sed -e 's/-/+git/;y/-/./')"
