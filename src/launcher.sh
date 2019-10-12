@@ -6,6 +6,9 @@ set -e
 # We need to handle that case and reset $SNAP
 SNAP=`echo $SNAP | sed -e "s|/var/lib/snapd||g"`
 
+# Update CHEZ to point to bundled scheme wrapper
+export CHEZ="$SNAP/bin/chez"
+
 # Discover Idris libraries in the home installation
 DOT_IDRIS="$HOME/.idris2/idris2-0.0.0/"
 if [ -d "$DOT_IDRIS" ]; then
