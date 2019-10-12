@@ -54,5 +54,5 @@ parts:
       - pkg-config
       - zlib1g-dev
     override-build: |
-      cabal update
-      cabal install idris-1.3.2
+      cabal --http-transport=wget update
+      cabal --http-transport=wget install idris-1.3.2
