@@ -30,6 +30,30 @@ snapcraft
 
 For more information, please refer to the [snapcraft documentation](https://snapcraft.io/docs/snapcraft-overview).
 
+## Troubleshooting
+
+If you receive errors similar to this one:
+
+```
+cabal: Error: some packages failed to install:
+idris failed during the building phase. The exception was:
+ExitFailure (-9)
+This may be due to an out-of-memory condition.
+```
+
+You may want to allocate more RAM to the multipass VM that is being
+launched by snapcraft in the background (at the time of this writing, it defaults to 2GB).
+
+To do so, set the following environment variable before running `snapcraft`:
+
+```bash
+export SNAPCRAFT_BUILD_ENVIRONMENT_MEMORY=8G
+```
+
+Note, that this will only work if the VM does not exist, yet. To delete an existing VM,
+use `multipass list` to find the VM name (should be something like `snapcraft-idris2`)
+and `multipass delete <name>` to delete it.
+
 ## License
 
 Idris 2 is licensed under the [BSD-3-Clause](https://github.com/edwinb/Idris2/blob/master/LICENSE) license.
