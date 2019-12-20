@@ -9,16 +9,22 @@ adopt-info: idris2
 
 apps:
   idris2:
-    command: launcher $SNAP/bin/idris2
+    command: bin/launcher $SNAP/bin/idris2
 
 parts:
   launcher:
-    plugin: dump
-    source: src/
-    organize:
-      launcher.sh: bin/launcher
+    plugin: nil
+    source: src
+    override-build: |
+      idris2_part_install=$SNAPCRAFT_PART_INSTALL/../../idris2/install
+      idris2_version=$(ls -t $idris2_part_install | grep idris2- | head -1)
+      mkdir -p $SNAPCRAFT_PART_INSTALL/bin
+      sed "s/IDRIS2_VERSION=/IDRIS2_VERSION=$idris2_version/g" launcher.sh.in \
+        > $SNAPCRAFT_PART_INSTALL/bin/launcher
+      chmod +x $SNAPCRAFT_PART_INSTALL/bin/launcher
     stage:
       - bin/launcher
+    after: [idris2]
   chez:
     plugin: dump
     source: src/
@@ -42,7 +48,7 @@ parts:
       export PATH=$HOME/.cabal/bin:$PATH
       make install PREFIX=$SNAPCRAFT_PART_INSTALL
       # Fix folder permissions
-      find $SNAPCRAFT_PART_INSTALL/idris2-0.0.0 -type d -exec chmod 755 {} \;
+      find $SNAPCRAFT_PART_INSTALL/idris2* -type d -exec chmod 755 {} \;
     after: [idris]
   idris:
     plugin: nil
