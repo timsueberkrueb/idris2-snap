@@ -9,9 +9,13 @@ modification across many different Linux distributions. Snaps are discoverable a
 Please note that Idris 2 is currently pre-alpha. For now, the goal of this snap package is to provide a hassle-free way
 for Idris users to stay up to date with the Idris 2 development by providing nightly snap builds.
 
-# Install
+## Install
 
-The package has not been published, yet.
+The package is under development and available for testing in the edge channel:
+
+```bash
+snap install idris2 --edge --classic
+```
 
 ## Build
 
