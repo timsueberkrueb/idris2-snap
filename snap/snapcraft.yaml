@@ -36,6 +36,7 @@ parts:
     plugin: make
     source: https://github.com/edwinb/idris2.git
     build-packages:
+      - clang
       - chezscheme9.5
     stage-packages:
       - chezscheme9.5
@@ -46,6 +47,7 @@ parts:
       snapcraftctl set-grade "devel"
     override-build: |
       export PATH=$HOME/.cabal/bin:$PATH
+      export OPT=-O2
       make install PREFIX=$SNAPCRAFT_PART_INSTALL
       # Fix folder permissions
       find $SNAPCRAFT_PART_INSTALL/idris2* -type d -exec chmod 755 {} \;
