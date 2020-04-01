@@ -7,6 +7,9 @@ description: |
 confinement: classic
 adopt-info: idris2
 
+architectures:
+  - build-on: amd64
+
 apps:
   idris2:
     command: bin/launcher $SNAP/bin/idris2
