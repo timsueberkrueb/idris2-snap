@@ -39,4 +39,9 @@ done
 # Idris support bundled with the snap
 export IDRIS2_DATA="$SNAP/$IDRIS2_VERSION/support:$IDRIS2_DATA"
 
+# Use mimalloc unless IDRIS2_SNAP_SYSTEM_MALLOC is set to opt-out
+if [ -z "$IDRIS2_SNAP_SYSTEM_MALLOC" ]; then
+    export LD_PRELOAD=$SNAP/lib/mimalloc-1.6/libmimalloc.so
+fi
+
 exec $@

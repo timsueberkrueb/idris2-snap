@@ -17,6 +17,17 @@ The package is under development and available for testing in the edge channel:
 snap install idris2 --edge --classic
 ```
 
+## Codegen Backend
+
+This snap bundles Chez Scheme, the default Idris 2 codegen backend, so there is no need to install it separately.
+
+## Memory Allocator
+
+This snap bundles [mimalloc](https://github.com/microsoft/mimalloc) and configures Idris 2 to use it by default.
+To opt-out, set the `IDRIS2_SNAP_SYSTEM_MALLOC` environment variable.
+`mimalloc` uses extreme free list sharding and was originally designed for functional programming languages and theorem provers
+similar to Idris.
+
 ## Build
 
 You need [snapcraft](https://snapcraft.io/docs/snapcraft-overview), the meta-build tool for creating snaps in order to
