@@ -73,5 +73,5 @@ parts:
     source: https://github.com/microsoft/mimalloc.git
     source-tag: v1.6.1
     prime:
-      - -lib/mimalloc-1.6/cmake
-      - -lib/mimalloc-1.6/include
+      - lib/mimalloc-1.6/libmimalloc.so
+      - lib/mimalloc-1.6/libmimalloc.so.1.6
