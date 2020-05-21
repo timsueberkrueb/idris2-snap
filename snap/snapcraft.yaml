@@ -35,6 +35,10 @@ parts:
       chez.sh: bin/chez
     stage:
       - bin/chez
+  rlwrap:
+    plugin: nil
+    stage-packages:
+      - rlwrap
   idris2:
     plugin: make
     source: https://github.com/idris-lang/idris2.git
