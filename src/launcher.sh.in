@@ -44,4 +44,4 @@ export IDRIS2_LIBS="$SNAP/$IDRIS2_VERSION/lib:$IDRIS2_LIBS"
 # Ensure Idris 2 finds the support library
 export LD_LIBRARY_PATH=$SNAP/lib:$LD_LIBRARY_PATH
 
-exec $SNAP/usr/bin/rlwrap -C idris2 $SNAP/bin/chez --script $SNAP/bin/idris2_app/idris2.so $@
+exec $SNAP/usr/bin/rlfe -h ~/.idris2_history $SNAP/bin/chez --script $SNAP/bin/idris2_app/idris2.so $@
