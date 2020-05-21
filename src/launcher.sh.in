@@ -38,5 +38,10 @@ done
 
 # Idris support bundled with the snap
 export IDRIS2_DATA="$SNAP/$IDRIS2_VERSION/support:$IDRIS2_DATA"
+# Idris support libs required for chez codegen
+export IDRIS2_LIBS="$SNAP/$IDRIS2_VERSION/lib:$IDRIS2_LIBS"
 
-exec $@
+# Ensure Idris 2 finds the support library
+export LD_LIBRARY_PATH=$SNAP/lib:$LD_LIBRARY_PATH
+
+exec $SNAP/bin/chez --script $SNAP/bin/idris2_app/idris2.so $@

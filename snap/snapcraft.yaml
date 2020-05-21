@@ -12,7 +12,7 @@ architectures:
 
 apps:
   idris2:
-    command: bin/launcher $SNAP/bin/idris2
+    command: bin/launcher
 
 parts:
   launcher:
@@ -37,34 +37,36 @@ parts:
       - bin/chez
   idris2:
     plugin: make
-    source: https://github.com/edwinb/idris2.git
+    source: https://github.com/idris-lang/idris2.git
     build-packages:
       - clang
       - chezscheme9.5
     stage-packages:
       - chezscheme9.5
+    stage:
+      - bin/idris2_app/idris2.so
+      - lib
+      - idris2-*
+      - usr
     override-pull: |
       snapcraftctl pull
       version="$(git describe --always | sed -e 's/-/+git/;y/-/./')"
       snapcraftctl set-version "$version"
       snapcraftctl set-grade "devel"
     override-build: |
-      export PATH=$HOME/.cabal/bin:$PATH
       export OPT=-O2
+      export PATH=$SNAPCRAFT_PART_INSTALL/bin:$PATH
+      export LD_LIBRARY_PATH=$SNAPCRAFT_PART_INSTALL/lib:$LD_LIBRARY_PATH
+
+      # Boostrap and install
+      make bootstrap SCHEME=chezscheme9.5 PREFIX=$SNAPCRAFT_PART_INSTALL
       make install PREFIX=$SNAPCRAFT_PART_INSTALL
+
+      # Patch shebang to point to the snap rather than to the temporary
+      # $SNAPCRAFT_PART_INSTALL location
+      #sed "s|#!.*|#!/snap/idris2/current/bin/chez --script|g" $SNAPCRAFT_PART_INSTALL/bin/idris2_app/idris2.so > idris2.so.new
+      #mv idris2.so.new $SNAPCRAFT_PART_INSTALL/bin/idris2_app/idris2.so
+      #chmod +x $SNAPCRAFT_PART_INSTALL/bin/idris2_app/idris2.so
+
       # Fix folder permissions
       find $SNAPCRAFT_PART_INSTALL/idris2* -type d -exec chmod 755 {} \;
-    after: [idris]
-  idris:
-    plugin: nil
-    source: https://github.com/idris-lang/Idris-dev.git
-    source-tag: v1.3.2
-    build-packages:
-      - wget
-      - cabal-install
-      - libffi-dev
-      - pkg-config
-      - zlib1g-dev
-    override-build: |
-      cabal --http-transport=wget update
-      cabal --http-transport=wget install idris-1.3.2
