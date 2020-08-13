@@ -18,13 +18,19 @@ export SNAP="/snap/idris2/current"
 # Update CHEZ to point to bundled scheme wrapper
 export CHEZ="$SNAP/bin/chez"
 
-# Discover Idris libraries in the home installation
-DOT_IDRIS="$HOME/.idris2/$IDRIS2_VERSION"
-if [ -d "$DOT_IDRIS" ]; then
-    for new_path in $(find "$DOT_IDRIS" -mindepth 1 -maxdepth 1 -type d);
-    do
-        export IDRIS2_PATH="$new_path:$IDRIS2_PATH"
-    done
+# IDRIS2_PREFIX points to the ~/.idris2 folder in the home directory because
+# the --install command uses this IDRIS2_PREFIX as the location for installing user libraries.
+# The Idris installation (including the built-in libraries) that comes with the snap is read-only.
+export IDRIS2_PREFIX="$HOME/.idris2"
+
+# Path where user libraries for this specific Idris version will get installed to
+DOT_IDRIS_USER_LIBS="$IDRIS2_PREFIX/$IDRIS2_VERSION"
+
+# Create the ~/.idris2/<idris2-version> folder if it does not exist already.
+# This is necessary because the Idris installation contained in the snap is read-only.
+# User libraries will get installed to DOT_IDRIS_USER_LIBS.
+if [ ! -d "$DOT_IDRIS_USER_LIBS" ]; then
+    mkdir -p "$DOT_IDRIS_USER_LIBS"
 fi
 
 # Idris support in the home installation
