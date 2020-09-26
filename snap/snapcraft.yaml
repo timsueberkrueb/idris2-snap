@@ -1,5 +1,5 @@
 name: idris2
-base: core18
+base: core20
 summary: A dependently typed programming language, a successor to Idris
 description: |
   Idris 2 is a dependently typed programming language based on "Quantitative Type Theory"
@@ -61,12 +61,6 @@ parts:
       # Boostrap and install
       make bootstrap SCHEME=chezscheme9.5 PREFIX=$SNAPCRAFT_PART_INSTALL
       make install PREFIX=$SNAPCRAFT_PART_INSTALL
-
-      # Patch shebang to point to the snap rather than to the temporary
-      # $SNAPCRAFT_PART_INSTALL location
-      #sed "s|#!.*|#!/snap/idris2/current/bin/chez --script|g" $SNAPCRAFT_PART_INSTALL/bin/idris2_app/idris2.so > idris2.so.new
-      #mv idris2.so.new $SNAPCRAFT_PART_INSTALL/bin/idris2_app/idris2.so
-      #chmod +x $SNAPCRAFT_PART_INSTALL/bin/idris2_app/idris2.so
 
       # Fix folder permissions
       find $SNAPCRAFT_PART_INSTALL/idris2* -type d -exec chmod 755 {} \;
