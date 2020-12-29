@@ -1,0 +1,21 @@
+name: 'Nightly build'
+on:
+  schedule:
+  - cron: '0 2 * * *'
+
+jobs:
+  nightly:
+    name: 'Nightly build'
+    runs-on: 'ubuntu-latest'
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Build the snap package
+      uses: snapcore/action-build@v1
+      id: build
+    - name: Deploy the snap package
+      uses: snapcore/action-publish@v1
+      with:
+        store_login: ${{ secrets.SNAPCRAFT_LOGIN_DATA }}
+        snap: ${{ steps.build.outputs.snap }}
+        release: edge
