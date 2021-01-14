@@ -38,6 +38,7 @@ parts:
   idris2:
     plugin: make
     source: https://github.com/idris-lang/idris2.git
+    source-tag: v0.3.0
     build-packages:
       - clang
       - chezscheme9.5
@@ -50,7 +51,7 @@ parts:
       - usr
     override-pull: |
       snapcraftctl pull
-      version="$(git describe --always | sed -e 's/-/+git/;y/-/./')"
+      version="$(git describe --tags --always | sed -e 's/-/+git/;y/-/./')"
       snapcraftctl set-version "$version"
       snapcraftctl set-grade "devel"
     override-build: |
