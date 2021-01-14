@@ -50,7 +50,7 @@ parts:
       - usr
     override-pull: |
       snapcraftctl pull
-      version="$(git describe --always | sed -e 's/-/+git/;y/-/./')"
+      version="$(git describe --tags --always | sed -e 's/-/+git/;y/-/./')"
       snapcraftctl set-version "$version"
       snapcraftctl set-grade "devel"
     override-build: |
