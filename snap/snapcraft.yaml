@@ -13,6 +13,8 @@ architectures:
 apps:
   idris2:
     command: bin/launcher
+  chez:
+    command: bin/chez
 
 parts:
   launcher:

@@ -4,19 +4,12 @@ IDRIS2_VERSION=
 
 set -e
 
-# Explicitly override SNAP. By default, Idris 2 generates Chez scheme code which gets
-# compiled to Chez scheme byte code. Both the generated Chez scheme scripts as well as
-# the generated Chez scheme byte code files start with a shebang pointing to the Chez scheme
-# interpreter.
-# For convenience, this snap package bundles a Chez scheme interpreter.
-# Snap applications reside in /snap/idris2/<version number>, where <version number> is an
-# integer. /snap/idris2/current is a symlink to the current version. By explicitly overriding
-# SNAP we ensure that the shebang points to the "current" symlink rather than to the current
-# explicit version number.
-export SNAP="/snap/idris2/current"
-
-# Update CHEZ to point to bundled scheme wrapper
-export CHEZ="$SNAP/bin/chez"
+# Set CHEZ to point to bundled scheme wrapper
+# We use SNAP_INSTANCE_NAME to support parallel installs. We use `which` to get the absolute
+# executable path since we cannot make any assumption about where the executable is located on
+# different distros
+CHEZ_EXEC="${SNAP_INSTANCE_NAME:-idris2}.chez"
+export CHEZ="$(which $CHEZ_EXEC)"
 
 # IDRIS2_PREFIX points to the ~/.idris2 folder in the home directory because
 # the --install command uses this IDRIS2_PREFIX as the location for installing user libraries.
