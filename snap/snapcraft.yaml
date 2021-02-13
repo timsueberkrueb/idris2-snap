@@ -58,7 +58,7 @@ parts:
     override-build: |
       export OPT=-O2
       export PATH=$SNAPCRAFT_PART_INSTALL/bin:$PATH
-      export LD_LIBRARY_PATH=$SNAPCRAFT_PART_INSTALL/lib:$LD_LIBRARY_PATH
+      export LD_LIBRARY_PATH=$SNAPCRAFT_PART_INSTALL/lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
 
       # Boostrap and install
       make bootstrap SCHEME=chezscheme9.5 PREFIX=$SNAPCRAFT_PART_INSTALL
