@@ -1,0 +1,31 @@
+name: 'Security updates'
+on:
+  schedule:
+  - cron: '0 2 * * *'
+
+jobs:
+  security-updates:
+    name: 'Security updates'
+    runs-on: 'ubuntu-latest'
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        ref: beta
+    - name: Check for outdated Ubuntu packages
+      id: check
+      uses: timsueberkrueb/action-check-snap@master
+      with:
+        snap: idris2
+        channel: beta
+    - if: fromJSON(steps.check.outputs.outdated)
+      id: build
+      name: Build the snap package
+      uses: snapcore/action-build@v1
+    - if: fromJSON(steps.check.outputs.outdated)
+      name: Deploy the snap package
+      uses: snapcore/action-publish@v1
+      with:
+        store_login: ${{ secrets.SNAPCRAFT_LOGIN_DATA }}
+        snap: ${{ steps.build.outputs.snap }}
+        release: beta
