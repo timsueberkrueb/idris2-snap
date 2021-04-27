@@ -8,12 +8,30 @@ jobs:
     name: 'Nightly build'
     runs-on: 'ubuntu-latest'
     steps:
-    - name: Checkout
+    - name: Check for new commits
+      id: check
+      run: |
+        STORE_VERSION=$(curl -sL -H "Snap-Device-Series: 16" "https://api.snapcraft.io/v2/snaps/info/idris2" \
+          | jq -r '.["channel-map"][] | select(.channel.name == "edge") .version')
+        STORE_SHORT_HASH=$(echo "$STORE_VERSION" | sed -n 's/^.*\.g\([0-9a-f]*\)$/\1/p')
+        SHORT_HASH_LENGTH=${#STORE_SHORT_HASH}
+        LATEST_COMMIT=$(curl -sL "https://api.github.com/repos/idris-lang/idris2/commits?per_page=1&page=1" \
+          | jq -r '.[0].sha')
+        LATEST_SHORT_HASH=$(echo "$LATEST_COMMIT" | head -c $SHORT_HASH_LENGTH)
+        if [ "$STORE_SHORT_HASH" != "$LATEST_SHORT_HASH" ]; then
+          echo "::set-output name=new-commits::true"
+        else
+          >&2 echo "There are no new commits. Skipping this build."
+        fi
+    - if: steps.check.outputs.new-commits == 'true'
+      name: Checkout
       uses: actions/checkout@v2
-    - name: Build the snap package
+    - if: steps.check.outputs.new-commits == 'true'
+      name: Build the snap package
       uses: snapcore/action-build@v1
       id: build
-    - name: Deploy the snap package
+    - if: steps.check.outputs.new-commits == 'true'
+      name: Deploy the snap package
       uses: snapcore/action-publish@v1
       with:
         store_login: ${{ secrets.SNAPCRAFT_LOGIN_DATA }}
