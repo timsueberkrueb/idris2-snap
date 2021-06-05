@@ -43,8 +43,10 @@ parts:
     build-packages:
       - clang
       - chezscheme9.5
+      - libgmp-dev
     stage-packages:
       - chezscheme9.5
+      - libgmp10
     stage:
       - bin/idris2_app/idris2.so
       - lib
