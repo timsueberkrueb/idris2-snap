@@ -60,4 +60,4 @@ and `multipass delete <name>` to delete it.
 
 ## License
 
-Idris 2 is licensed under the [BSD-3-Clause](https://github.com/edwinb/Idris2/blob/master/LICENSE) license.
+Idris 2 is licensed under the [BSD-3-Clause](https://github.com/idris-lang/Idris2/blob/main/LICENSE) license.
