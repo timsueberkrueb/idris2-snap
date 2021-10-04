@@ -39,10 +39,11 @@ For more information, please refer to the [snapcraft documentation](https://snap
 If you receive errors similar to this one:
 
 ```
-cabal: Error: some packages failed to install:
-idris failed during the building phase. The exception was:
-ExitFailure (-9)
-This may be due to an out-of-memory condition.
+Building idris2-boot from idris2-boot.ss
+compiling idris2_app/idris2-boot.ss with output to idris2_app/idris2-boot.so
+Killed
+make: *** [Makefile:232: bootstrap] Error 137
+Failed to run 'override-build': Exit code was 2.
 ```
 
 You may want to allocate more RAM to the multipass VM that is being
@@ -55,8 +56,8 @@ export SNAPCRAFT_BUILD_ENVIRONMENT_MEMORY=8G
 ```
 
 Note, that this will only work if the VM does not exist, yet. To delete an existing VM,
-use `multipass list` to find the VM name (should be something like `snapcraft-idris2`)
-and `multipass delete <name>` to delete it.
+run `snapcraft clean`. Alternatively, you can use `multipass list` to find the VM name
+(should be something like `snapcraft-idris2`) and run `multipass delete <name>` to delete it.
 
 ## License
 
