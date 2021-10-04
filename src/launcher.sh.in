@@ -29,16 +29,12 @@ fi
 # Idris support in the home installation
 export IDRIS2_DATA="$HOME/.idris2/$IDRIS2_VERSION/support:$IDRIS2_DATA"
 
-# Discover Idris libraries bundled with the snap
-for new_path in $(find "$SNAP/$IDRIS2_VERSION/" -mindepth 1 -maxdepth 1 -type d);
-do
-    export IDRIS2_PATH="$new_path:$IDRIS2_PATH"
-done
-
 # Idris support bundled with the snap
 export IDRIS2_DATA="$SNAP/$IDRIS2_VERSION/support:$IDRIS2_DATA"
 # Idris support libs required for chez codegen
 export IDRIS2_LIBS="$SNAP/$IDRIS2_VERSION/lib:$IDRIS2_LIBS"
+# Make Idris find packages that ship with the snap as well as user-installed ones
+export IDRIS2_PACKAGE_PATH="$DOT_IDRIS_USER_LIBS:$SNAP/$IDRIS2_VERSION"
 
 # Ensure Idris 2 finds the support library
 export LD_LIBRARY_PATH=$SNAP/lib:$LD_LIBRARY_PATH
