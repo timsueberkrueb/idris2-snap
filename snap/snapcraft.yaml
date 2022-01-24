@@ -62,9 +62,17 @@ parts:
       export PATH=$SNAPCRAFT_PART_INSTALL/bin:$PATH
       export LD_LIBRARY_PATH=$SNAPCRAFT_PART_INSTALL/lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
 
-      # Boostrap and install
-      make bootstrap SCHEME=chezscheme9.5 PREFIX=$SNAPCRAFT_PART_INSTALL
+      # Boostrap and install from pre-built Chez Scheme code of some previous Idris 2 version
+      make bootstrap SCHEME=chezscheme9.5 PREFIX="$SNAPCRAFT_PART_INSTALL/boostrap"
+      make install PREFIX="$SNAPCRAFT_PART_INSTALL/boostrap"
+
+      # Self-host: build again with the current Idris 2 version and install (required to build the Idris 2 API)
+      make clean
+      make all IDRIS2_BOOT="$SNAPCRAFT_PART_INSTALL/boostrap/bin/idris2" SCHEME=chezscheme9.5 PREFIX=$SNAPCRAFT_PART_INSTALL
       make install PREFIX=$SNAPCRAFT_PART_INSTALL
+
+      # Install Idris 2 API
+      make install-api
 
       # Fix folder permissions
       find $SNAPCRAFT_PART_INSTALL/idris2* -type d -exec chmod 755 {} \;
