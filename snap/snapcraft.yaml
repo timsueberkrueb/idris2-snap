@@ -40,6 +40,7 @@ parts:
   idris2:
     plugin: make
     source: https://github.com/idris-lang/idris2.git
+    source-tag: v0.5.1
     build-packages:
       - clang
       - chezscheme9.5
